@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Java Farewell · Axel | // commit to memory</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0f1a;
+      font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* === JAVA CODING BACKGROUND === */
+    .code-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      background: #0a0f1a;
+    }
+
+    /* matrix-like code rain but more java-ish */
+    .code-snippet {
+      position: absolute;
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre;
+      color: #2a8f5c;
+      opacity: 0.18;
+      pointer-events: none;
+      animation: fadeScroll 28s linear infinite;
+      user-select: none;
+    }
+
+    @keyframes fadeScroll {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.2;
+      }
+      90% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+      }
+    }
+
+    /* static terminal grid */
+    .terminal-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(rgba(45, 200, 110, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(45, 200, 110, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    /* glowing cursor effect */
+    .glow-cursor {
+      position: absolute;
+      bottom: 10%;
+      left: 5%;
+      width: 15px;
+      height: 22px;
+      background: #4cff9e;
+      box-shadow: 0 0 10px #2eff7a;
+      animation: blink 1s step-end infinite;
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* MAIN CARD: dev style */
+    .farewell-card {
+      position: relative;
+      z-index: 20;
+      max-width: 780px;
+      width: 100%;
+      background: #0d1117e6;
+      backdrop-filter: blur(2px);
+      border-radius: 1.2rem;
+      border: 1px solid #2e8b57;
+      box-shadow: 0 20px 35px -12px black, 0 0 0 1px #2ecc71 inset, 0 0 12px rgba(46, 204, 113, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s;
+      overflow: hidden;
+      font-family: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    .farewell-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 45px -15px #000000, 0 0 0 2px #3eff8b inset;
+      border-color: #3eff8b;
+    }
+
+    /* card header like IDE tab */
+    .card-header {
+      background: #161b22;
+      padding: 0.75rem 1.2rem;
+      border-bottom: 1px solid #2e8b57;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: #9cdb6e;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #3e4452;
+    }
+    .dot.red { background: #e06c75; }
+    .dot.yellow { background: #e5c07b; }
+    .dot.green { background: #98c379; }
+
+    .file-path {
+      margin-left: 12px;
+      font-family: monospace;
+      letter-spacing: 0.3px;
+      font-size: 0.7rem;
+      color: #7e9a6a;
+    }
+
+    .card-inner {
+      padding: 2rem 2rem 2.2rem;
+      background: rgba(10, 15, 26, 0.85);
+    }
+
+    /* java-like comment line */
+    .comment-line {
+      color: #7c8a5e;
+      font-size: 0.75rem;
+      font-family: monospace;
+      margin-bottom: 1rem;
+      border-left: 2px solid #4c9a6b;
+      padding-left: 12px;
+    }
+
+    .recipient-name {
+      font-size: 2.5rem;
+      font-weight: 600;
+      font-family: 'Fira Code', monospace;
+      color: #c3e88d;
+      text-shadow: 0 0 5px #2b9a5e;
+      letter-spacing: 1px;
+      margin: 0.5rem 0 0.25rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, #2e8b57, #7aca5e, #2e8b57);
+      width: 100%;
+      margin: 0.8rem 0 1.2rem;
+    }
+
+    .message-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #cbd5e6;
+      font-family: 'Fira Code', 'JetBrains Mono', monospace;
+      margin: 1.3rem 0 1.6rem;
+    }
+
+    .message-content p {
+      margin-bottom: 1rem;
+    }
+
+    .java-keyword {
+      color: #c792ea;
+      font-weight: 500;
+    }
+
+    .java-string {
+      color: #c3e88d;
+    }
+
+    .java-comment {
+      color: #7f9a6e;
+      font-style: italic;
+    }
+
+    .signature {
+      margin-top: 1.5rem;
+      text-align: right;
+      font-family: 'Fira Code', monospace;
+      font-size: 1.2rem;
+      color: #b9f6a5;
+      border-top: 1px dashed #2e8b57;
+      padding-top: 1.2rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .code-icon {
+      font-size: 1.2rem;
+    }
+
+    .github-note {
+      margin-top: 1.8rem;
+      font-size: 0.7rem;
+      text-align: center;
+      color: #6f8f6a;
+      border-top: 1px solid #2e5a3e;
+      padding-top: 1rem;
+      font-family: monospace;
+    }
+
+    /* inline code blocks */
+    .inline-code {
+      background: #1e2a1e;
+      padding: 0.1rem 0.4rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #d4f0b0;
+      font-family: monospace;
+    }
+
+    /* responsive */
+    @media (max-width: 650px) {
+      body {
+        padding: 1rem;
+      }
+      .recipient-name {
+        font-size: 1.8rem;
+      }
+      .message-content {
+        font-size: 0.85rem;
+      }
+      .signature {
+        font-size: 1rem;
+      }
+      .card-inner {
+        padding: 1.4rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- JAVA CODING BACKGROUND: floating code snippets -->
+  <div class="code-bg">
+    <div class="terminal-grid"></div>
+    <!-- random java lines floating -->
+    <div class="code-snippet" style="top: 10%; left: 5%; animation-duration: 32s;">public class Connection {</div>
+    <div class="code-snippet" style="top: 25%; left: 80%; animation-duration: 27s; animation-delay: -4s;">int bond = 42;</div>
+    <div class="code-snippet" style="top: 45%; left: 15%; animation-duration: 40s; animation-delay: -7s;">System.out.println("funny guy");</div>
+    <div class="code-snippet" style="top: 60%; left: 70%; animation-duration: 35s;">// precalculus memories stored</div>
+    <div class="code-snippet" style="top: 75%; left: 40%; animation-duration: 29s; animation-delay: -2s;">String bioGreatness = "Axel_Future";</div>
+    <div class="code-snippet" style="top: 88%; left: 88%; animation-duration: 33s;">if (jokesRemain) keepLaughing();</div>
+    <div class="code-snippet" style="top: 15%; left: 45%; animation-duration: 45s; animation-delay: -12s;">import java.util.*;</div>
+    <div class="code-snippet" style="top: 50%; left: 92%; animation-duration: 26s;">while(alive) { connect(); }</div>
+    <div class="code-snippet" style="top: 30%; left: 22%; animation-duration: 38s; animation-delay: -5s;">@Override public String toString()</div>
+    <div class="code-snippet" style="top: 82%; left: 10%; animation-duration: 31s;">// witty remark injected</div>
+    <div class="glow-cursor"></div>
+  </div>
+
+  <!-- MAIN CARD for AXEL (Java developer farewell) -->
+  <div class="farewell-card">
+    <div class="card-header">
+      <div class="window-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <div class="file-path">~/goodbye-cards/axel_farewell.java</div>
+      <span style="margin-left: auto; font-size: 0.7rem;">🐞 Java 21</span>
+    </div>
+    <div class="card-inner">
+      <div class="comment-line">
+        // /* <span class="java-keyword">package</span> <span class="java-string">"farewell.axel"</span>;<br>
+        // * commit: 0xAXEL &nbsp;— lasting memories
+      </div>
+
+      <div class="recipient-name">public class Axel {</div>
+      <div class="divider"></div>
+
+      <div class="message-content">
+        <p><span class="java-keyword">public</span> <span class="java-keyword">void</span> <span class="java-string">farewellMessage</span>() {</p>
+        <p style="margin-left: 1.5rem;"><span class="java-comment">// Dear Axel,</span></p>
+        <p style="margin-left: 1.5rem;">System.out.println(<span class="java-string">"I have loved our connection day one from doing precalc together, bonding over funny stuff and cool little conversations. What I do know is you're always a funny guy who everybody loves and you will be great in the field of Biology. I know you got the jokes and the wit. Stay great."</span>);</p>
+        <p style="margin-left: 1.5rem; margin-top: 0.8rem;"><span class="java-comment">// Love, Scott — forever stored in memory heap</span></p>
+        <p style="margin-left: 1.5rem;">}</p>
+      </div>
+
+      <div class="signature">
+        <span class="code-icon">📟</span> <span style="color:#b1f096;">Love, Scott.</span>
+      </div>
+
+      <div class="github-note">
+        🧬 compiled with humor & affection · repo: axel/precalc-bond-java 🧬<br>
+        <span style="font-size: 0.65rem;">// run forever — exit code 0 (always great)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- small console effect: animate blinking -->
+  <script>
+    (function() {
+      const card = document.querySelector('.farewell-card');
+      if(card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xPercent = (x / rect.width) * 100;
+          const yPercent = (y / rect.height) * 100;
+          card.style.boxShadow = `0 28px 45px -15px black, 0 0 0 2px #3eff8b inset, 0 0 18px rgba(50, 230, 100, 0.4)`;
+          card.style.background = `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(30, 45, 30, 0.9), #0d1117)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.boxShadow = '';
+          card.style.background = '';
+        });
+      }
+      // random floating code animation reset not needed, but adds dynamic style
+      const snippets = document.querySelectorAll('.code-snippet');
+      setInterval(() => {
+        snippets.forEach(el => {
+          let newDelay = (Math.random() * 20) - 10;
+          if(newDelay > 0) el.style.animationDelay = `${newDelay}s`;
+        });
+      }, 15000);
+    })();
+  </script>
+</body>
+</html>
